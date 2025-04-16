@@ -45,10 +45,16 @@ def main():
     print("\n\nRastreando...")
     res = requests.post('https://5p9h1eo176.execute-api.us-east-1.amazonaws.com/prod/rastreamento-carga', json  = data, headers= headers)
     retorno = res.json()
-    print(f"\n\n## DADOS ##\nOrigem: {retorno['Conhecimentos'][0]['municipioOrigem']},{retorno['Conhecimentos'][0]['ufOrigem']} -> Destino: {retorno['Conhecimentos'][0]['municipioDestino']},{retorno['Conhecimentos'][0]['ufDestino']}\nPrevisão: {retorno['Conhecimentos'][0]['dataPrevisaoEntrega']}\n\n")
-    print("## Histórico ##")
-    for historico in reversed(retorno['Historico']):
-        print(f"Status: {historico['dataAtualizacao']} - {historico['statusRastreamento']}\nOrigem: {historico['municipioOrigem']},{historico['ufOrigem']} -> {historico['municipioDestino']},{historico['ufDestino']}\n\n")
+    try:
+        print(f"\n\n## DADOS ##\nOrigem: {retorno['Conhecimentos'][0]['municipioOrigem']},{retorno['Conhecimentos'][0]['ufOrigem']} -> Destino: {retorno['Conhecimentos'][0]['municipioDestino']},{retorno['Conhecimentos'][0]['ufDestino']}\nPrevisão: {retorno['Conhecimentos'][0]['dataPrevisaoEntrega']}\n\n")
+        print("## Histórico ##")
+        for historico in reversed(retorno['Historico']):
+            print(f"Status: {historico['dataAtualizacao']} - {historico['statusRastreamento']}\nOrigem: {historico['municipioOrigem']},{historico['ufOrigem']} -> Destino: {historico['municipioDestino']},{historico['ufDestino']}\n\n")
+    except:
+        try:
+            print(retorno['message'])
+        except:
+            print(retorno)
     
 
 main()
